@@ -940,11 +940,7 @@ public final class interfaz extends javax.swing.JFrame {
             //pantallaCarga.setVisible(true);
         });
 
-        try {
-            UIManager.setLookAndFeel(new FlatLightLaf());
-        } catch (UnsupportedLookAndFeelException ex) {
-            System.err.println("Failed to initialize LaF");
-        }
+
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
