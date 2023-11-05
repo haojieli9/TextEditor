@@ -655,13 +655,13 @@ public class interfaz extends javax.swing.JFrame {
     }//GEN-LAST:event_jbMenu3ActionPerformed
 
     private void jbMenu2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbMenu2ActionPerformed
-        // TODO add your handling code here:
         JFileChooser fileChooser = new JFileChooser();
+        int result = fileChooser.showOpenDialog(null);
 
-        // Configura el file chooser para seleccionar archivos (en lugar de directorios)
-        fileChooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
-
-        int result = fileChooser.showOpenDialog(jPanel1);
+        if (result == JFileChooser.APPROVE_OPTION) {
+            File selectedFile = fileChooser.getSelectedFile();
+            metodo_barraMenu.openFile(tabbedPane, selectedFile);
+        }
     }//GEN-LAST:event_jbMenu2ActionPerformed
 
     private void jbMenu1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbMenu1ActionPerformed
