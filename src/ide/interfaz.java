@@ -777,8 +777,12 @@ public final class interfaz extends javax.swing.JFrame {
 
         if (bol) {
             setDarkLafTheme();
+            metodo_menu.svgIcon(tgg, "src/svg/dark.svg", 25, 25);
+
         } else {
             setLightLafTheme();
+            metodo_menu.svgIcon(tgg, "src/svg/light.svg", 25, 25);
+
         }
 
         // Guardar la configuración del tema en el archivo JSON

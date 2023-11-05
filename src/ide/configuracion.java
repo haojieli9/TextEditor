@@ -1,16 +1,25 @@
 package ide;
 
+import com.formdev.flatlaf.FlatDarkLaf;
 import com.formdev.flatlaf.FlatLightLaf;
+import com.google.gson.Gson;
+import java.io.FileReader;
+import java.io.IOException;
+import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
+import themes.themes;
 
 public class configuracion extends javax.swing.JFrame {
+
+    private themes themeConfig;
 
     public configuracion() {
         initComponents();
         setLocationRelativeTo(null);
         setTitle("Settings");
- 
+        loadThemeConfig(); // Cargar la configuración del tema al iniciar
+
     }
 
     @SuppressWarnings("unchecked")
@@ -150,17 +159,59 @@ public class configuracion extends javax.swing.JFrame {
     private void listConfiValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_listConfiValueChanged
         // TODO add your handling code here:
         if (!evt.getValueIsAdjusting()) { // Asegura que solo reaccione una vez por clic
-                    int indiceSeleccionado = listConfi.getSelectedIndex();
-                    if (indiceSeleccionado != -1) {
-                        jTextPane1.setText("Elemento selecionado");
-                    }
-                }
+            int indiceSeleccionado = listConfi.getSelectedIndex();
+            if (indiceSeleccionado != -1) {
+                jTextPane1.setText("Elemento selecionado");
+            }
+        }
     }//GEN-LAST:event_listConfiValueChanged
+    //metodos 
+    /*json temas*/
+    private void loadThemeConfig() {
+        Gson gson = new Gson();
+        try (FileReader reader = new FileReader("theme-config.json")) {
+            themeConfig = gson.fromJson(reader, themes.class);
 
+            if (themeConfig == null) {
+                themeConfig = new themes();
+            }
+
+            String themeName = themeConfig.getThemeName();
+            if ("DarkLaf".equals(themeName)) {
+                setDarkLafTheme();
+            } else {
+                setLightLafTheme(); // Default to LightLaf
+            }
+        } catch (IOException e) {
+            System.out.println("Error loading theme configuration.");
+            themeConfig = new themes();
+            setLightLafTheme(); // Default to LightLaf
+        }
+    }
+
+    private void setDarkLafTheme() {
+        try {
+            UIManager.setLookAndFeel(new FlatDarkLaf());
+            SwingUtilities.updateComponentTreeUI(this);
+        } catch (Exception e) {
+            System.out.println("Failed to set DarkLaf theme");
+        }
+    }
+
+    private void setLightLafTheme() {
+        try {
+            UIManager.setLookAndFeel(new FlatLightLaf());
+            SwingUtilities.updateComponentTreeUI(this);
+        } catch (Exception e) {
+            System.out.println("Failed to set LightLaf theme");
+        }
+    }
+
+    //main
     public static void main(String args[]) {
         java.awt.EventQueue.invokeLater(() -> {
             new configuracion().setVisible(true);
-            
+
         });
         try {
             UIManager.setLookAndFeel(new FlatLightLaf());
