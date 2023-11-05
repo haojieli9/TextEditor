@@ -727,6 +727,7 @@ public class interfaz extends javax.swing.JFrame {
                 Timer timer2 = new Timer(500, (ActionEvent e2) -> {
                     output.setText("Finished compiling..."
                             + "\nRunning");
+                    executeCmd();
                 });
                 timer2.setRepeats(false);
                 timer2.start();
@@ -867,6 +868,18 @@ public class interfaz extends javax.swing.JFrame {
         tgg.setBorderPainted(true);
         tgg.setContentAreaFilled(false);
 
+    }
+
+    public static void executeCmd() {
+        Runtime r = Runtime.getRuntime();
+        String comando = "cmd.exe /c start";
+        Process p;
+        try {
+            p = r.exec(comando);
+        } catch (Exception e) {
+            System.out.println("Error al ejecutar el símbolo del sistema (cmd)");
+            e.printStackTrace();
+        }
     }
 
     public static void main(String args[]) {
