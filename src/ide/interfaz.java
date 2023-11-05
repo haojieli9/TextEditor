@@ -2,18 +2,21 @@ package ide;
 
 import com.formdev.flatlaf.*;
 import com.formdev.flatlaf.FlatLightLaf;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import extra.PantallaCarga;
 import javax.swing.*;
 import extra.SideMenuPanel;
 import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import metodos.metodo_barraMenu;
 import metodos.metodo_menu;
+import themes.themes;
 
-public class interfaz extends javax.swing.JFrame {
+public final class interfaz extends javax.swing.JFrame {
 
     //Declaracion clase
     SideMenuPanel sp;
