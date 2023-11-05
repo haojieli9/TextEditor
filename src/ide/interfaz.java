@@ -885,9 +885,8 @@ public final class interfaz extends javax.swing.JFrame {
         Process p;
         try {
             p = r.exec(comando);
-        } catch (Exception e) {
+        } catch (IOException e) {
             System.out.println("Error al ejecutar el símbolo del sistema (cmd)");
-            e.printStackTrace();
         }
     }
 
@@ -918,7 +917,7 @@ public final class interfaz extends javax.swing.JFrame {
         try {
             UIManager.setLookAndFeel(new FlatDarkLaf());
             SwingUtilities.updateComponentTreeUI(this);
-        } catch (Exception e) {
+        } catch (UnsupportedLookAndFeelException e) {
             System.out.println("Failed to set DarkLaf theme");
         }
     }
@@ -927,7 +926,7 @@ public final class interfaz extends javax.swing.JFrame {
         try {
             UIManager.setLookAndFeel(new FlatLightLaf());
             SwingUtilities.updateComponentTreeUI(this);
-        } catch (Exception e) {
+        } catch (UnsupportedLookAndFeelException e) {
             System.out.println("Failed to set LightLaf theme");
         }
     }
