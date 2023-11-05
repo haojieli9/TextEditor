@@ -9,6 +9,7 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
+import java.io.File;
 import metodos.metodo_barraMenu;
 import metodos.metodo_menu;
 
@@ -787,13 +788,13 @@ public class interfaz extends javax.swing.JFrame {
     }//GEN-LAST:event_tggActionPerformed
 
     private void openfileActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_openfileActionPerformed
-        // TODO add your handling code here:
         JFileChooser fileChooser = new JFileChooser();
+        int result = fileChooser.showOpenDialog(null);
 
-        // Configura el file chooser para seleccionar archivos (en lugar de directorios)
-        fileChooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
-
-        int result = fileChooser.showOpenDialog(jPanel1);
+        if (result == JFileChooser.APPROVE_OPTION) {
+            File selectedFile = fileChooser.getSelectedFile();
+            metodo_barraMenu.openFile(tabbedPane, selectedFile);
+        }
     }//GEN-LAST:event_openfileActionPerformed
 
     private void closefileActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_closefileActionPerformed
