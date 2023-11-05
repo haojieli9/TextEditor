@@ -1,12 +1,10 @@
 package themes;
 
-import com.formdev.flatlaf.FlatLaf;
-
 public class themes {
     private String themeName;
 
     public themes() {
-        themeName = "LightLaf"; // Valor predeterminado
+        themeName = "FlatLightLaf"; // Valor predeterminado
     }
 
     public String getThemeName() {

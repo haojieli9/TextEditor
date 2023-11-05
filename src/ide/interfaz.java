@@ -873,6 +873,7 @@ public final class interfaz extends javax.swing.JFrame {
 
     }
 
+    //llamar cmd
     public static void executeCmd() {
         Runtime r = Runtime.getRuntime();
         String comando = "cmd.exe /c start";
@@ -887,12 +888,13 @@ public final class interfaz extends javax.swing.JFrame {
 
     public static void main(String args[]) {
         FlatLightLaf.setup();
+        new interfaz().setVisible(true);
+        
         SwingUtilities.invokeLater(() -> {
-            PantallaCarga pantallaCarga = new PantallaCarga(null); // Pasa null como JFrame principal
+            //PantallaCarga pantallaCarga = new PantallaCarga(null); // Pasa null como JFrame principal
             //pantallaCarga.setVisible(true);
         });
 
-        // Resto del código de inicialización de LaF y la aplicación principal
         try {
             UIManager.setLookAndFeel(new FlatLightLaf());
         } catch (UnsupportedLookAndFeelException ex) {
