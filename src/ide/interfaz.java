@@ -10,6 +10,7 @@ import extra.SideMenuPanel;
 import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
 import java.io.File;
+import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import metodos.metodo_barraMenu;
@@ -17,6 +18,8 @@ import metodos.metodo_menu;
 import themes.themes;
 
 public final class interfaz extends javax.swing.JFrame {
+
+    private themes themeConfig;
 
     //Declaracion clase
     SideMenuPanel sp;
@@ -31,6 +34,8 @@ public final class interfaz extends javax.swing.JFrame {
         initComponents();
         setLocationRelativeTo(null);
         setIcons();
+
+        loadThemeConfig(); // Cargar la configuración del tema al iniciar
 
         JMenuItem opcion1 = new JMenuItem("Login");
         JMenuItem opcion2 = new JMenuItem("Logout");
@@ -768,27 +773,23 @@ public final class interfaz extends javax.swing.JFrame {
 
     private void tggActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tggActionPerformed
         boolean bol = tgg.isSelected();
+        String themeName = bol ? "DarkLaf" : "LightLaf";
 
         if (bol) {
-            metodo_menu.svgIcon(tgg, "src/svg/dark.svg", 25, 25);
-            try {
-                UIManager.setLookAndFeel(new FlatDarkLaf());
-                SwingUtilities.updateComponentTreeUI(this);
-
-            } catch (Exception e) {
-                System.out.println("Failed");
-            }
+            setDarkLafTheme();
         } else {
-            metodo_menu.svgIcon(tgg, "src/svg/light.svg", 25, 25);
-            try {
-                UIManager.setLookAndFeel(new FlatLightLaf());
-                SwingUtilities.updateComponentTreeUI(this);
-
-            } catch (Exception e) {
-                System.out.println("Failed");
-            }
+            setLightLafTheme();
         }
 
+        // Guardar la configuración del tema en el archivo JSON
+        themeConfig.setThemeName(themeName);
+
+        Gson gson = new GsonBuilder().setPrettyPrinting().create();
+        try (FileWriter writer = new FileWriter("theme-config.json")) {
+            gson.toJson(themeConfig, writer);
+        } catch (IOException e) {
+            System.out.println("Error saving theme configuration.");
+        }
     }//GEN-LAST:event_tggActionPerformed
 
     private void openfileActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_openfileActionPerformed
@@ -886,10 +887,51 @@ public final class interfaz extends javax.swing.JFrame {
         }
     }
 
+    /*json temas*/
+    private void loadThemeConfig() {
+        Gson gson = new Gson();
+        try (FileReader reader = new FileReader("theme-config.json")) {
+            themeConfig = gson.fromJson(reader, themes.class);
+
+            if (themeConfig == null) {
+                themeConfig = new themes();
+            }
+
+            String themeName = themeConfig.getThemeName();
+            if ("DarkLaf".equals(themeName)) {
+                setDarkLafTheme();
+            } else {
+                setLightLafTheme(); // Default to LightLaf
+            }
+        } catch (IOException e) {
+            System.out.println("Error loading theme configuration.");
+            themeConfig = new themes();
+            setLightLafTheme(); // Default to LightLaf
+        }
+    }
+
+    private void setDarkLafTheme() {
+        try {
+            UIManager.setLookAndFeel(new FlatDarkLaf());
+            SwingUtilities.updateComponentTreeUI(this);
+        } catch (Exception e) {
+            System.out.println("Failed to set DarkLaf theme");
+        }
+    }
+
+    private void setLightLafTheme() {
+        try {
+            UIManager.setLookAndFeel(new FlatLightLaf());
+            SwingUtilities.updateComponentTreeUI(this);
+        } catch (Exception e) {
+            System.out.println("Failed to set LightLaf theme");
+        }
+    }
+
     public static void main(String args[]) {
         FlatLightLaf.setup();
         new interfaz().setVisible(true);
-        
+
         SwingUtilities.invokeLater(() -> {
             //PantallaCarga pantallaCarga = new PantallaCarga(null); // Pasa null como JFrame principal
             //pantallaCarga.setVisible(true);
