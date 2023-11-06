@@ -1,18 +1,28 @@
 package ide;
 
+import com.formdev.flatlaf.FlatDarkLaf;
 import com.formdev.flatlaf.FlatLightLaf;
+import com.google.gson.Gson;
+import java.io.FileReader;
+import java.io.IOException;
+import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 import metodos.metodo_menu;
+import themes.themes;
 
 public class login extends javax.swing.JFrame {
+
+    private themes themeConfig;
 
     public login() {
         initComponents();
         setLocationRelativeTo(null);
         
+        loadThemeConfig();
+
         setTitle("Login");
-        
+
         metodo_menu.svgIcon(jButton1, "src/svg/logus.svg", 70, 70);
         jButton1.setBorderPainted(false);  // Deshabilitar los bordes del botón
         jButton1.setContentAreaFilled(false);  // Hacer que el área de contenido del botón sea transparente
@@ -22,11 +32,11 @@ public class login extends javax.swing.JFrame {
         jButton2.setBorderPainted(false);
         jButton2.setContentAreaFilled(false);
         jButton2.setFocusPainted(false);
-        
+
         metodo_menu.svgIcon(jButton3, "src/svg/pwd.svg", 30, 30);
         jButton3.setBorderPainted(false);
-        jButton3.setContentAreaFilled(false); 
-        jButton3.setFocusPainted(false); 
+        jButton3.setContentAreaFilled(false);
+        jButton3.setFocusPainted(false);
     }
 
     @SuppressWarnings("unchecked")
@@ -173,6 +183,48 @@ public class login extends javax.swing.JFrame {
     private void jTextField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField1ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jTextField1ActionPerformed
+
+    //metodos 
+    /*json temas*/
+    private void loadThemeConfig() {
+        Gson gson = new Gson();
+        try (FileReader reader = new FileReader("src/json/config.json")) {
+            themeConfig = gson.fromJson(reader, themes.class);
+
+            if (themeConfig == null) {
+                themeConfig = new themes();
+            }
+
+            String themeName = themeConfig.getThemeName();
+            if ("DarkLaf".equals(themeName)) {
+                setDarkLafTheme();
+            } else {
+                setLightLafTheme(); // Default to LightLaf
+            }
+        } catch (IOException e) {
+            System.out.println("Error loading theme configuration.");
+            themeConfig = new themes();
+            setLightLafTheme(); // Default to LightLaf
+        }
+    }
+
+    private void setDarkLafTheme() {
+        try {
+            UIManager.setLookAndFeel(new FlatDarkLaf());
+            SwingUtilities.updateComponentTreeUI(this);
+        } catch (Exception e) {
+            System.out.println("Failed to set DarkLaf theme");
+        }
+    }
+
+    private void setLightLafTheme() {
+        try {
+            UIManager.setLookAndFeel(new FlatLightLaf());
+            SwingUtilities.updateComponentTreeUI(this);
+        } catch (Exception e) {
+            System.out.println("Failed to set LightLaf theme");
+        }
+    }
 
     public static void main(String args[]) {
         try {

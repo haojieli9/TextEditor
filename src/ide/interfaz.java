@@ -2,6 +2,7 @@ package ide;
 
 import com.formdev.flatlaf.*;
 import com.formdev.flatlaf.FlatLightLaf;
+import com.formdev.flatlaf.intellijthemes.*;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import extra.PantallaCarga;
@@ -565,6 +566,11 @@ public final class interfaz extends javax.swing.JFrame {
         jMenu6.add(jSeparator13);
 
         jav.setText("Java Library");
+        jav.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                javActionPerformed(evt);
+            }
+        });
         jMenu6.add(jav);
 
         kot.setText("Kotlin Library");
@@ -576,6 +582,11 @@ public final class interfaz extends javax.swing.JFrame {
         jMenu6.add(kot);
 
         ht.setText("HTML Library");
+        ht.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                htActionPerformed(evt);
+            }
+        });
         jMenu6.add(ht);
         jMenu6.add(jSeparator14);
 
@@ -639,7 +650,15 @@ public final class interfaz extends javax.swing.JFrame {
     }//GEN-LAST:event_wwActionPerformed
 
     private void kotActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_kotActionPerformed
-        // TODO add your handling code here:
+        try {
+            // URL de la página 
+            String url = "https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/";
+
+            // Abrir la URL en un navegador web predeterminado
+            java.awt.Desktop.getDesktop().browse(new java.net.URI(url));
+        } catch (Exception ex) {
+            System.out.println("Error");
+        }
     }//GEN-LAST:event_kotActionPerformed
 
     private void jbMenu4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbMenu4ActionPerformed
@@ -841,6 +860,22 @@ public final class interfaz extends javax.swing.JFrame {
 
     }//GEN-LAST:event_replaceActionPerformed
 
+    private void javActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_javActionPerformed
+        try {
+            // URL de la página 
+            String url = "https://docs.oracle.com/javase/8/docs/api/";
+
+            // Abrir la URL en un navegador web predeterminado
+            java.awt.Desktop.getDesktop().browse(new java.net.URI(url));
+        } catch (Exception ex) {
+            System.out.println("Error");
+        }
+    }//GEN-LAST:event_javActionPerformed
+
+    private void htActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_htActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_htActionPerformed
+
     //Metodos
     public void setIcons() {
         metodo_menu.svgIcon(jbMenu1, "src/svg/bookmarkGroup.svg", 25, 25);
@@ -905,21 +940,6 @@ public final class interfaz extends javax.swing.JFrame {
         tgg.setFocusPainted(true);
         tgg.setBorderPainted(true);
         tgg.setContentAreaFilled(false);
-    }
-
-    private JTextComponent getCurrentTextComponent(int index) {
-        if (index >= 0 && index < tabbedPane.getTabCount()) {
-            Component selectedComponent = tabbedPane.getComponentAt(index);
-            if (selectedComponent instanceof JScrollPane) {
-                JScrollPane scrollPane = (JScrollPane) selectedComponent;
-                JViewport viewport = scrollPane.getViewport();
-                Component view = viewport.getView();
-                if (view instanceof JTextComponent) {
-                    return (JTextComponent) view;
-                }
-            }
-        }
-        return null;
     }
 
     //llamar cmd
