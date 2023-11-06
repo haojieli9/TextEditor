@@ -7,12 +7,16 @@ import com.google.gson.GsonBuilder;
 import extra.PantallaCarga;
 import javax.swing.*;
 import extra.SideMenuPanel;
+import extra.TextAreaWithLineNumber;
 import java.awt.BorderLayout;
+import java.awt.Component;
 import java.awt.event.ActionEvent;
 import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import javax.swing.text.JTextComponent;
+import javax.swing.text.StyledDocument;
 import metodos.metodo_barraMenu;
 import metodos.metodo_menu;
 import themes.themes;
@@ -23,11 +27,12 @@ public final class interfaz extends javax.swing.JFrame {
 
     //Declaracion clase
     SideMenuPanel sp;
-    metodo_menu menuMeto = new metodo_menu();
+    metodo_menu mM = new metodo_menu();
     login lg = new login();
     configuracion cf = new configuracion();
     JPopupMenu menuEmergente = new JPopupMenu();
     JTabbedPane tabbedPane;
+    JTextPane currentTextPane;
 
     //Constructor
     public interfaz() {
@@ -384,6 +389,11 @@ public final class interfaz extends javax.swing.JFrame {
 
         jMenuItem5.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_O, java.awt.event.InputEvent.CTRL_DOWN_MASK));
         jMenuItem5.setText("Save");
+        jMenuItem5.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem5ActionPerformed(evt);
+            }
+        });
         jMenu1.add(jMenuItem5);
 
         jMenuItem6.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_O, java.awt.event.InputEvent.CTRL_DOWN_MASK));
@@ -432,6 +442,7 @@ public final class interfaz extends javax.swing.JFrame {
         jMenu2.add(paste);
         jMenu2.add(jSeparator5);
 
+        find.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F, java.awt.event.InputEvent.CTRL_DOWN_MASK));
         find.setText("Find");
         find.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -440,7 +451,13 @@ public final class interfaz extends javax.swing.JFrame {
         });
         jMenu2.add(find);
 
+        replace.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_R, java.awt.event.InputEvent.CTRL_DOWN_MASK));
         replace.setText("Replace");
+        replace.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                replaceActionPerformed(evt);
+            }
+        });
         jMenu2.add(replace);
 
         jMenuBar1.add(jMenu2);
@@ -597,7 +614,20 @@ public final class interfaz extends javax.swing.JFrame {
     }//GEN-LAST:event_closeproActionPerformed
 
     private void findActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_findActionPerformed
-        // TODO add your handling code here:
+        int tabIndex = tabbedPane.getSelectedIndex(); // Obtén el índice de la pestaña activa
+
+        if (tabIndex != -1) {
+            Component tabComponent = tabbedPane.getComponentAt(tabIndex);
+
+            if (tabComponent instanceof TextAreaWithLineNumber) {
+                TextAreaWithLineNumber tx = (TextAreaWithLineNumber) tabComponent;
+                String palabraBuscar = JOptionPane.showInputDialog(this, "Ingrese la palabra que desea buscar:", "Buscar Palabra", JOptionPane.QUESTION_MESSAGE);
+
+                if (palabraBuscar != null && !palabraBuscar.isEmpty()) {
+                    tx.buscar(palabraBuscar); // Llama al método buscar con la palabra a buscar
+                }
+            }
+        }
     }//GEN-LAST:event_findActionPerformed
 
     private void debconActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_debconActionPerformed
@@ -613,25 +643,7 @@ public final class interfaz extends javax.swing.JFrame {
     }//GEN-LAST:event_kotActionPerformed
 
     private void jbMenu4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbMenu4ActionPerformed
-        // TODO add your handling code here:
-        /*String[] options = {"Login", "Logout"};
-
-        // Mostrar el cuadro de diálogo con las opciones
-        int choice = JOptionPane.showOptionDialog(this, "Selecciona una opción:", "Opciones", JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE, null, options, options[0]);
-
-        // Realizar acciones basadas en la elección del usuario
-        if (choice == 0) {
-            // Usuario eligió "Login", realiza el login
-            lg.setVisible(true);
-            lg.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        } else if (choice == 1) {
-            // Usuario eligió "Logout", muestra un mensaje
-            JOptionPane.showMessageDialog(this, "Sesión cerrada correctamente", "Logout", JOptionPane.INFORMATION_MESSAGE);
-        }*/
-
         menuEmergente.show(jbMenu4, 0, jbMenu4.getHeight());
-
-
     }//GEN-LAST:event_jbMenu4ActionPerformed
 
     private void jbMenu5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbMenu5ActionPerformed
@@ -642,23 +654,19 @@ public final class interfaz extends javax.swing.JFrame {
     }//GEN-LAST:event_jbMenu5ActionPerformed
 
     private void jbMenu3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbMenu3ActionPerformed
-        // TODO add your handling code here:
-        // Crear un arreglo de opciones para el cuadro de diálogo
-        String[] options = {"Buscar", "Reemplazar"};
-
-        // Mostrar el cuadro de diálogo con las opciones
-        int choice = JOptionPane.showOptionDialog(this, "Selecciona una opción:", "Buscar o Reemplazar", JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE, null, options, options[0]);
-
-        if (choice == 0) {
-            // Usuario eligió "Buscar"
-            String palabraBuscar = JOptionPane.showInputDialog(this, "Ingrese la palabra que desea buscar:", "Buscar Palabra", JOptionPane.QUESTION_MESSAGE);
-            // Realiza la búsqueda con la palabra ingresada
-
-        } else if (choice == 1) {
-            // Usuario eligió "Reemplazar"
-            String palabraBuscar = JOptionPane.showInputDialog(this, "Ingrese la palabra que desea reemplazar:", "Reemplazar Palabra", JOptionPane.QUESTION_MESSAGE);
-            String palabraReemplazar = JOptionPane.showInputDialog(this, "Ingrese la palabra con la que desea reemplazar:", "Reemplazar con", JOptionPane.QUESTION_MESSAGE);
-            // Realiza el reemplazo de palabras
+        int tabIndex = tabbedPane.getSelectedIndex();
+        if (tabIndex != -1) {
+            Component tabComponent = tabbedPane.getComponentAt(tabIndex);
+            if (tabComponent instanceof TextAreaWithLineNumber) {
+                TextAreaWithLineNumber tx = (TextAreaWithLineNumber) tabComponent;
+                String palabraBuscar = JOptionPane.showInputDialog(this, "Ingrese la palabra que desea buscar:", "Buscar Palabra", JOptionPane.QUESTION_MESSAGE);
+                if (palabraBuscar != null && !palabraBuscar.isEmpty()) {
+                    String palabraReemplazar = JOptionPane.showInputDialog(this, "Ingrese la palabra con la que desea reemplazar:", "Reemplazar Palabra", JOptionPane.QUESTION_MESSAGE);
+                    if (palabraReemplazar != null) {
+                        tx.buscarYReemplazarTexto(palabraBuscar, palabraReemplazar);
+                    }
+                }
+            }
         }
     }//GEN-LAST:event_jbMenu3ActionPerformed
 
@@ -673,9 +681,6 @@ public final class interfaz extends javax.swing.JFrame {
     }//GEN-LAST:event_jbMenu2ActionPerformed
 
     private void jbMenu1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbMenu1ActionPerformed
-        // TODO add your handling code here:
-        //sp.onSideMenu();
-
         if (sp.getIsOpen()) {
             sp.closeMenu();
             jbMenu1.setText("");
@@ -684,7 +689,6 @@ public final class interfaz extends javax.swing.JFrame {
             jbMenu4.setText("");
             jbMenu5.setText("");
             jbMenu6.setText("");
-
         } else {
             sp.openMenu();
             jbMenu1.setText(" Menu                               ");
@@ -693,14 +697,10 @@ public final class interfaz extends javax.swing.JFrame {
             jbMenu4.setText(" Account                            ");
             jbMenu5.setText(" Configuration                 ");
             jbMenu6.setText(" Run&Debug                    ");
-
         }
-
-
     }//GEN-LAST:event_jbMenu1ActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        // TODO add your handling code here:
         output.setText("Name: configuracion.java	"
                 + "Type: File Extension: java Can (R/W): R|W \nPath:"
                 + "C:\\Users\\haojie.li\\Desktop\\TextEditor\\src\\ide\\configuracion.java \n"
@@ -710,7 +710,6 @@ public final class interfaz extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        // TODO add your handling code here:
         output.setText("Microsoft Windows [Versión 10.0.22621.2428]\n"
                 + "(c) Microsoft Corporation. Todos los derechos reservados.\n"
                 + "\n"
@@ -719,12 +718,9 @@ public final class interfaz extends javax.swing.JFrame {
 
     private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
         metodo_barraMenu.newFile(tabbedPane);
-
-
     }//GEN-LAST:event_jMenuItem2ActionPerformed
 
     private void jbMenu6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbMenu6ActionPerformed
-        // TODO add your handling code here:
         output.setText("Debugging...");
 
         try {
@@ -749,10 +745,7 @@ public final class interfaz extends javax.swing.JFrame {
     }//GEN-LAST:event_jbMenu6ActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
-        // TODO add your handling code here:
         JOptionPane.showMessageDialog(null, "No hay notificaciones recientes", "Notification", JOptionPane.INFORMATION_MESSAGE);
-
-
     }//GEN-LAST:event_jButton3ActionPerformed
 
     private void undoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_undoActionPerformed
@@ -789,7 +782,7 @@ public final class interfaz extends javax.swing.JFrame {
         themeConfig.setThemeName(themeName);
 
         Gson gson = new GsonBuilder().setPrettyPrinting().create();
-        try (FileWriter writer = new FileWriter("theme-config.json")) {
+        try (FileWriter writer = new FileWriter("src/json/config.json")) {
             gson.toJson(themeConfig, writer);
         } catch (IOException e) {
             System.out.println("Error saving theme configuration.");
@@ -810,6 +803,43 @@ public final class interfaz extends javax.swing.JFrame {
         // TODO add your handling code here:
         metodo_barraMenu.closeFile(jPanel2);
     }//GEN-LAST:event_closefileActionPerformed
+
+    private void jMenuItem5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem5ActionPerformed
+        int tabIndex = tabbedPane.getSelectedIndex(); // Obtén el índice de la pestaña activa
+
+        if (tabIndex != -1) {
+            Component tabComponent = tabbedPane.getComponentAt(tabIndex);
+
+            if (tabComponent instanceof TextAreaWithLineNumber) {
+                TextAreaWithLineNumber tx = (TextAreaWithLineNumber) tabComponent;
+
+                // Llama al método de guardarArchivo en la pestaña activa
+                tx.guardarArchivo();
+            }
+        }
+    }//GEN-LAST:event_jMenuItem5ActionPerformed
+
+    private void replaceActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_replaceActionPerformed
+        int tabIndex = tabbedPane.getSelectedIndex(); // Obtén el índice de la pestaña activa
+
+        if (tabIndex != -1) {
+            Component tabComponent = tabbedPane.getComponentAt(tabIndex);
+
+            if (tabComponent instanceof TextAreaWithLineNumber) {
+                TextAreaWithLineNumber tx = (TextAreaWithLineNumber) tabComponent;
+                String palabraBuscar = JOptionPane.showInputDialog(this, "Ingrese la palabra que desea buscar:", "Buscar Palabra", JOptionPane.QUESTION_MESSAGE);
+
+                if (palabraBuscar != null && !palabraBuscar.isEmpty()) {
+                    String palabraReemplazar = JOptionPane.showInputDialog(this, "Ingrese la palabra con la que desea reemplazar:", "Reemplazar Palabra", JOptionPane.QUESTION_MESSAGE);
+
+                    if (palabraReemplazar != null) {
+                        tx.buscarYReemplazarTexto(palabraBuscar, palabraReemplazar); // Llama al método buscarYReemplazar con las palabras
+                    }
+                }
+            }
+        }
+
+    }//GEN-LAST:event_replaceActionPerformed
 
     //Metodos
     public void setIcons() {
@@ -875,7 +905,21 @@ public final class interfaz extends javax.swing.JFrame {
         tgg.setFocusPainted(true);
         tgg.setBorderPainted(true);
         tgg.setContentAreaFilled(false);
+    }
 
+    private JTextComponent getCurrentTextComponent(int index) {
+        if (index >= 0 && index < tabbedPane.getTabCount()) {
+            Component selectedComponent = tabbedPane.getComponentAt(index);
+            if (selectedComponent instanceof JScrollPane) {
+                JScrollPane scrollPane = (JScrollPane) selectedComponent;
+                JViewport viewport = scrollPane.getViewport();
+                Component view = viewport.getView();
+                if (view instanceof JTextComponent) {
+                    return (JTextComponent) view;
+                }
+            }
+        }
+        return null;
     }
 
     //llamar cmd
@@ -893,7 +937,7 @@ public final class interfaz extends javax.swing.JFrame {
     /*json temas*/
     private void loadThemeConfig() {
         Gson gson = new Gson();
-        try (FileReader reader = new FileReader("theme-config.json")) {
+        try (FileReader reader = new FileReader("src/json/config.json")) {
             themeConfig = gson.fromJson(reader, themes.class);
 
             if (themeConfig == null) {
@@ -913,6 +957,7 @@ public final class interfaz extends javax.swing.JFrame {
         }
     }
 
+    //set temas
     private void setDarkLafTheme() {
         try {
             UIManager.setLookAndFeel(new FlatDarkLaf());
@@ -939,7 +984,6 @@ public final class interfaz extends javax.swing.JFrame {
             //PantallaCarga pantallaCarga = new PantallaCarga(null); // Pasa null como JFrame principal
             //pantallaCarga.setVisible(true);
         });
-
 
     }
 

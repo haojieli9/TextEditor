@@ -169,7 +169,7 @@ public class configuracion extends javax.swing.JFrame {
     /*json temas*/
     private void loadThemeConfig() {
         Gson gson = new Gson();
-        try (FileReader reader = new FileReader("theme-config.json")) {
+        try (FileReader reader = new FileReader("src/json/config.json")) {
             themeConfig = gson.fromJson(reader, themes.class);
 
             if (themeConfig == null) {

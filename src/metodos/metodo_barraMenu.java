@@ -19,7 +19,7 @@ public class metodo_barraMenu {
         JTextArea textArea = textAreaWithLineNumber.getTextArea();
 
         // Agregar una nueva pestaña al JTabbedPane con un nombre predeterminado
-        tabbedPane.addTab("Nueva Pestaña", textAreaWithLineNumber);
+        tabbedPane.addTab("Untitled", textAreaWithLineNumber);
 
         // Obtener el índice de la nueva pestaña recién creada
         int tabIndex = tabbedPane.indexOfComponent(textAreaWithLineNumber);
@@ -29,7 +29,7 @@ public class metodo_barraMenu {
         tabPanel.setOpaque(false);
 
         // Crear una etiqueta para el título de la pestaña
-        JLabel tabLabel = new JLabel("Nueva Pestaña");
+        JLabel tabLabel = new JLabel("Untitled");
         tabLabel.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 5));
 
         // Crear un botón de cierre
@@ -134,5 +134,7 @@ public class metodo_barraMenu {
         tabbedPane.revalidate();
         tabbedPane.repaint();
     }
+    
+    
 
 }
