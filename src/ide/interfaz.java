@@ -4,7 +4,6 @@ import com.formdev.flatlaf.*;
 import com.formdev.flatlaf.FlatLightLaf;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import extra.FileInfo;
 import javax.swing.*;
 import extra.SideMenuPanel;
 import extra.TextAreaWithLineNumber;
@@ -15,7 +14,6 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.util.Date;
 import metodos.metodo_barraMenu;
 import metodos.metodo_menu;
 import themes.themes;
@@ -726,7 +724,7 @@ public final class interfaz extends javax.swing.JFrame {
                 JOptionPane.showMessageDialog(this, "The selected tab does not contain file information", "Error", JOptionPane.ERROR_MESSAGE);
             }
         } else {
-            JOptionPane.showMessageDialog(this, "No open tabs.", "Error", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(this, "You don't have any tabs opened.", "Error", JOptionPane.ERROR_MESSAGE);
         }
     }//GEN-LAST:event_infoActionPerformed
 
@@ -766,7 +764,7 @@ public final class interfaz extends javax.swing.JFrame {
     }//GEN-LAST:event_jbMenu6ActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
-        JOptionPane.showMessageDialog(null, "No hay notificaciones recientes", "Notification", JOptionPane.INFORMATION_MESSAGE);
+        JOptionPane.showMessageDialog(null, "No recent notifications", "Notification", JOptionPane.INFORMATION_MESSAGE);
     }//GEN-LAST:event_jButton3ActionPerformed
 
     private void undoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_undoActionPerformed
