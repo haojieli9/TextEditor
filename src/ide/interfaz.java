@@ -2,10 +2,9 @@ package ide;
 
 import com.formdev.flatlaf.*;
 import com.formdev.flatlaf.FlatLightLaf;
-import com.formdev.flatlaf.intellijthemes.*;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import extra.PantallaCarga;
+import extra.FileInfo;
 import javax.swing.*;
 import extra.SideMenuPanel;
 import extra.TextAreaWithLineNumber;
@@ -16,8 +15,7 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
-import javax.swing.text.JTextComponent;
-import javax.swing.text.StyledDocument;
+import java.util.Date;
 import metodos.metodo_barraMenu;
 import metodos.metodo_menu;
 import themes.themes;
@@ -33,7 +31,6 @@ public final class interfaz extends javax.swing.JFrame {
     configuracion cf = new configuracion();
     JPopupMenu menuEmergente = new JPopupMenu();
     JTabbedPane tabbedPane;
-    JTextPane currentTextPane;
 
     //Constructor
     public interfaz() {
@@ -99,7 +96,7 @@ public final class interfaz extends javax.swing.JFrame {
         mainPanel = new javax.swing.JPanel();
         jScrollPane4 = new javax.swing.JScrollPane();
         output = new javax.swing.JTextArea();
-        jButton1 = new javax.swing.JButton();
+        info = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
         jPanel2 = new javax.swing.JPanel();
         jButton3 = new javax.swing.JButton();
@@ -256,10 +253,10 @@ public final class interfaz extends javax.swing.JFrame {
         output.setText("CONSOLE:");
         jScrollPane4.setViewportView(output);
 
-        jButton1.setText("Info.");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        info.setText("Info.");
+        info.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                infoActionPerformed(evt);
             }
         });
 
@@ -300,7 +297,7 @@ public final class interfaz extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addGroup(mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 78, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(info, javax.swing.GroupLayout.PREFERRED_SIZE, 78, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addComponent(jButton2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 78, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addContainerGap())
@@ -312,7 +309,7 @@ public final class interfaz extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(mainPanelLayout.createSequentialGroup()
-                        .addComponent(jButton1)
+                        .addComponent(info)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jButton2)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -719,14 +716,19 @@ public final class interfaz extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_jbMenu1ActionPerformed
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        output.setText("Name: configuracion.java	"
-                + "Type: File Extension: java Can (R/W): R|W \nPath:"
-                + "C:\\Users\\haojie.li\\Desktop\\TextEditor\\src\\ide\\configuracion.java \n"
-                + "Last modified: Fri Nov 03 10:15:10 CET 2023	\n"
-                + "Hidden: false	\n"
-                + "Size: 9802 bytes ");
-    }//GEN-LAST:event_jButton1ActionPerformed
+    private void infoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_infoActionPerformed
+        int selectedIndex = tabbedPane.getSelectedIndex();
+        if (selectedIndex != -1) {
+            String tooltip = tabbedPane.getToolTipTextAt(selectedIndex);
+            if (tooltip != null) {
+                JOptionPane.showMessageDialog(this, "File information:\n" + tooltip, "Información del archivo", JOptionPane.INFORMATION_MESSAGE);
+            } else {
+                JOptionPane.showMessageDialog(this, "The selected tab does not contain file information", "Error", JOptionPane.ERROR_MESSAGE);
+            }
+        } else {
+            JOptionPane.showMessageDialog(this, "No open tabs.", "Error", JOptionPane.ERROR_MESSAGE);
+        }
+    }//GEN-LAST:event_infoActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         output.setText("Microsoft Windows [Versión 10.0.22621.2428]\n"
@@ -1023,7 +1025,7 @@ public final class interfaz extends javax.swing.JFrame {
     private javax.swing.JMenuItem duplicate;
     private javax.swing.JMenuItem find;
     private javax.swing.JMenuItem ht;
-    private javax.swing.JButton jButton1;
+    private javax.swing.JButton info;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
     private javax.swing.JMenu jMenu1;

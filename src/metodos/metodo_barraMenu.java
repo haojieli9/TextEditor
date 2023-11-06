@@ -1,6 +1,7 @@
 package metodos;
 
 import com.formdev.flatlaf.extras.FlatSVGIcon;
+import extra.FileInfo;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.*;
@@ -81,7 +82,7 @@ public class metodo_barraMenu {
 
     public static void openFile(JTabbedPane tabbedPane, File file) {
         if (!file.exists()) {
-            System.err.println("selected file does not exists");
+            System.err.println("El archivo seleccionado no existe");
             return;
         }
 
@@ -89,7 +90,6 @@ public class metodo_barraMenu {
         JTextArea textArea = textAreaWithLineNumber.getTextArea();
 
         tabbedPane.addTab(file.getName(), textAreaWithLineNumber);
-        int tabIndex = tabbedPane.indexOfComponent(textAreaWithLineNumber);
 
         try (BufferedReader reader = new BufferedReader(new FileReader(file))) {
             StringBuilder content = new StringBuilder();
@@ -101,6 +101,10 @@ public class metodo_barraMenu {
         } catch (IOException e) {
             e.printStackTrace();
         }
+
+        FileInfo fileInfo = new FileInfo(file.getName(), file.getAbsolutePath());
+        int tabIndex = tabbedPane.indexOfComponent(textAreaWithLineNumber);
+        tabbedPane.setToolTipTextAt(tabIndex, fileInfo.toString());
 
         JPanel tabPanel = new JPanel(new FlowLayout(FlowLayout.LEFT, 0, 0));
         tabPanel.setOpaque(false);
@@ -134,7 +138,5 @@ public class metodo_barraMenu {
         tabbedPane.revalidate();
         tabbedPane.repaint();
     }
-    
-    
 
 }
